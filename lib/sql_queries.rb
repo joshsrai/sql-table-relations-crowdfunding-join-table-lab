@@ -7,25 +7,63 @@
 # Make sure each ruby method returns a string containing a valid SQL statement.
 
 def selects_the_titles_of_all_projects_and_their_pledge_amounts_alphabetized_by_title
-  "Write your SQL query Here"
+  "SELECT projects.title, SUM(pledges.amount) 
+  FROM projects
+  JOIN pledges
+  ON projects.id = pledges.project_id
+  GROUP BY projects.title;"
+  #show the project titles from the JOINED PROJECTS TABLE and PLEDGES TABLE, and then in the PROJECTS TABLE, look for projects whose .title column matches up with the project_id column in the PLEDGES TABLE, and then show them alphabetically.
 end
 
 def selects_the_user_name_age_and_pledge_amount_for_all_pledges_alphabetized_by_name
-  "Write your SQL query Here"
+  "SELECT users.name, users.age, SUM(pledges.amount) 
+  FROM users
+  JOIN pledges
+  ON users.id = pledges.user_id
+  GROUP BY users.name;"
 end
+#show the user name and age from the JOINED USERS TABLE and PLEDGES TABLE, and then in the USERS TABLE, look for users whose .name and .age columns matches up with the user_id column in the PLEDGES TABLE, and then show them alphabetically.
 
 def selects_the_titles_and_amount_over_goal_of_all_projects_that_have_met_their_funding_goal
-  "Write your SQL query Here"
+  "SELECT projects.title, SUM(pledges.amount) - projects.funding_goal
+  FROM pledges
+  JOIN projects
+  ON pledges.project_id = projects.id
+  GROUP BY projects.id
+  HAVING SUM(pledges.amount) >= projects.funding_goal;"
 end
+#
+
 
 def selects_user_names_and_amounts_of_all_pledges_grouped_by_name_then_orders_them_by_the_summed_amount
-  "Write your SQL query Here"
+  "SELECT users.name, SUM(pledges.amount)
+  FROM users
+  JOIN pledges
+  ON users.id = pledges.user_id
+  GROUP BY users.name
+  ORDER BY SUM(pledges.amount);"
 end
+#show the user name and the sum of thier pledges from the JOINED USERS TABLE and PLEDGES TABLE, and then in the USERS TABLE, look for users whose .id column matches up with the user_id column in the PLEDGES TABLE, and then show them by the summed amount ascending.
+
 
 def selects_the_category_names_and_pledge_amounts_of_all_pledges_in_the_music_category
-  "Write your SQL query Here"
+  "SELECT projects.category, pledges.amount
+  FROM users
+  JOIN pledges
+  ON users.id = pledges.user_id
+  JOIN projects
+  ON pledges.project_id = projects.id
+  WHERE projects.category = \"music\";"
 end
+#from the music category, show all the pledges amounts from the JOINED USERS TABLE and PLEDGES TABLE, and then in the USERS TABLE, look for users whose .id column matches up with the user_id column in the PLEDGES TABLE and then in the PLEDGES TABLE, look for pledges whos .project_id column matches up with the .id column in the PROJECTS TABLE??
 
 def selects_the_category_name_and_the_sum_total_of_the_all_its_pledges_for_the_books_category
-  "Write your SQL query Here"
+  "SELECT projects.category, SUM(pledges.amount)
+  FROM users
+  JOIN pledges
+  ON users.id = pledges.user_id
+  JOIN projects
+  ON pledges.project_id = projects.id
+  WHERE projects.category = \"books\";"
 end
+#from the books category, show sum pledge amount from the JOINED USERS TABLE and PLEDGES TABLE, and then in the USERS TABLE, look for users whose .id column matches up with the user_id column in the PLEDGES TABLE and then in the PLEDGES TABLE, look for pledges whos .project_id column matches up with the .id column in the PROJECTS TABLE??
